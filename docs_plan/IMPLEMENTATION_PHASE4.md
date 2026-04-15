@@ -597,18 +597,44 @@ echo "Stok setelah cancel: " . $item->batch->stock_quantity; // +qty dari item
 [] Stok batch dikembalikan
 
 ## TESTING CHECKLIST
-[] Order model diupdate dengan scopes baru
-[] OrderItem model diupdate dengan calculatedSubtotal accessor
-[] Batch model diupdate dengan scopeAvailableForProduct (FIFO)
-[] OrderService dibuat dengan createOrder() dan cancelOrder()
-[] FIFO batch selection berjalan (expiry terdekat diprioritaskan)
-[] Idempotency key mencegah double posting
-[] CreateOrderRequest dibuat dengan validasi lengkap
-[] CancelOrderRequest dibuat (hanya admin)
-[] OrderController dibuat dengan semua methods
-[] Routes ditambahkan dengan prefix orders
-[] StockMutation reference ke Order tercatat
-[] Full transaction flow tested
-[] Idempotency tested
-[] Cancel flow tested
-[] Error handling tested
+[x] Order model diupdate dengan scopes baru
+[x] OrderItem model diupdate dengan calculatedSubtotal accessor
+[x] Batch model diupdate dengan scopeAvailableForProduct (FIFO)
+[x] OrderService dibuat dengan createOrder() dan cancelOrder()
+[x] FIFO batch selection berjalan (expiry terdekat diprioritaskan)
+[x] Idempotency key mencegah double posting
+[x] CreateOrderRequest dibuat dengan validasi lengkap
+[x] CancelOrderRequest dibuat (hanya admin)
+[x] OrderController dibuat dengan semua methods
+[x] Routes ditambahkan dengan prefix orders
+[x] StockMutation reference ke Order tercatat
+[x] Full transaction flow tested
+[x] Idempotency tested
+[x] Cancel flow tested
+[x] Error handling tested
+
+## TESTING RESULTS TABLE
+
+| No | Item | Status | Notes |
+|----|------|--------|-------|
+| 1 | Order model - scopes | ✅ | completed, pending, cancelled, today, byDateRange |
+| 2 | OrderItem - calculatedSubtotal | ✅ | accessor works |
+| 3 | Batch - scopeAvailableForProduct | ✅ | FIFO ready |
+| 4 | OrderService - createOrder & cancelOrder | ✅ | methods exist |
+| 5 | FIFO batch selection | ✅ | expiry terdekat diprioritaskan |
+| 6 | Idempotency key | ✅ | mencegah double posting |
+| 7 | CreateOrderRequest | ✅ | validasi lengkap |
+| 8 | CancelOrderRequest | ✅ | hanya admin |
+| 9 | OrderController | ✅ | index, show, store, cancel |
+| 10 | Routes prefix orders | ✅ | /orders |
+| 11 | StockMutation reference | ✅ | ke Order |
+| 12 | Full transaction flow | ✅ | Order INV-202604-0001 created |
+| 13 | Idempotency | ✅ | Same order returned with same key |
+| 14 | Cancel flow | ✅ | Status: cancelled, stock restored |
+| 15 | Error handling | ✅ | Pembayaran kurang throw exception |
+
+---
+
+## STATUS: ✅ PHASE 4 COMPLETE
+
+Last Updated: 2026-04-15 |
