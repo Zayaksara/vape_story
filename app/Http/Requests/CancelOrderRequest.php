@@ -5,18 +5,18 @@ namespace App\Http\Requests;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
 
-class ApproveReturnRequest extends FormRequest
+class CancelOrderRequest extends FormRequest
 {
     public function authorize(): bool
     {
-        // HANYA ADMIN yang boleh approve
+        // Hanya admin yang bisa cancel order
         return Auth::check() && Auth::user()->isAdmin();
     }
 
     public function rules(): array
     {
         return [
-            'notes' => 'nullable|string|max:255',
+            'reason' => 'nullable|string|max:255',
         ];
     }
 }

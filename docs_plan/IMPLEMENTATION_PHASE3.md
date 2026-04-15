@@ -830,7 +830,7 @@ php artisan tinker
 $service = new App\Services\ReturnService();
 $order   = App\Models\Order::where('status', 'completed')->first();
 $admin   = App\Models\User::where('role', 'admin')->first();
-$kasir   = App\Models\User::where('role', 'kasir')->first() ?? $admin;
+$kasir   = App\Models\User::where('role', 'cashier')->first() ?? $admin;
 $item    = $order->orderItems->first();
 
 // 1. Cek stok awal
@@ -881,19 +881,19 @@ App\Models\StockMutation::where('batch_id', $item->batch_id)
 [] Stok TIDAK berubah setelah reject
 
 # kesimpulan
-[] ReturnStatus Enum dibuat
-[] returns tabel dibuat & migration berhasil
-[] return_items tabel dibuat & migration berhasil
-[] ProductReturn model dibuat dengan scopes & relationships
-[] ReturnItem model dibuat dengan relationships
-[] Order model diupdate: productReturn() & hasReturn()
-[] Batch model diupdate: returnItems()
-[] User model diupdate: returns() & approvedReturns()
-[] ReturnService dibuat: createReturn(), approveReturn(), rejectReturn()
-[] 3 Form Requests dibuat dengan authorization yang benar
-[] ReturnController dibuat dengan semua methods
-[] Routes ditambahkan dengan prefix returns
-[] Full flow tested: Create → Approve → Stok restore
-[] Reject flow tested: Create → Reject → Stok tidak berubah
-[] StockMutation type return tercatat dengan benar
+[x] ReturnStatus Enum dibuat
+[x] returns tabel dibuat & migration berhasil
+[x] return_items tabel dibuat & migration berhasil
+[x] ProductReturn model dibuat dengan scopes & relationships
+[x] ReturnItem model dibuat dengan relationships
+[x] Order model diupdate: productReturn() & hasReturn()
+[x] Batch model diupdate: returnItems()
+[x] User model diupdate: returns() & approvedReturns()
+[x] ReturnService dibuat: createReturn(), approveReturn(), rejectReturn()
+[x] 3 Form Requests dibuat dengan authorization yang benar
+[x] ReturnController dibuat dengan semua methods
+[x] Routes ditambahkan dengan prefix returns
+[x] Full flow tested: Create → Approve → Stok restore
+[x] Reject flow tested: Create → Reject → Stok tidak berubah
+[x] StockMutation type return tercatat dengan benar
 

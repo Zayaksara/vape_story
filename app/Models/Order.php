@@ -66,4 +66,32 @@ class Order extends Model
         return $this->productReturns()->exists();
     }
 
+    // Scope untuk mencari order yang masih pending (belum selesai)
+    public function scopePending($query)
+    {
+        return $query->where('status', OrderStatus::PENDING);
+    }
+
+    // Scope untuk mencari order yang sudah dibatalkan
+    public function scopeCancelled($query)
+    {
+        return $query->where('status', OrderStatus::CANCELLED);
+    }
+
+    public function scopeToday($query)
+    {
+        return $query->whereDate('created_at', today());
+    }
+
+    public function scopeByDateRange($query, string $form, string $to)
+    {
+        return $query->whereBetween('created_at', [$form, $to]);
+    }
+
+    // 
+    public function isCancellable(): bool
+    {
+        return $this->status === OrderStatus::PENDING || $this->status === OrderStatus::COMPLETED;
+    }
+
 }

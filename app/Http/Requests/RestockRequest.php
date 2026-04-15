@@ -9,7 +9,7 @@ class RestockRequest extends FormRequest
     public function authorize(): bool
     {
         // HANYA ADMIN yang boleh restock
-        return auth()->check() && auth()->user()->role === 'admin';
+        return auth()->check() && auth()->user()->isAdmin();
     }
 
     public function rules(): array

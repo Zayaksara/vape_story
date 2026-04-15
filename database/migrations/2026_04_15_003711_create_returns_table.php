@@ -15,9 +15,9 @@ return new class extends Migration
 
             $table->foreignUuid('order_id')->constrained()->onDelete('cascade');
 
-            // ✅ Pakai foreignId karena users.id adalah bigint
-            $table->foreignId('cashier_id')->constrained('users')->onDelete('cascade');
-            $table->foreignId('approved_by')->nullable()->constrained('users')->onDelete('set null');
+            // ✅ Pakai foreignUuid karena users.id adalah uuid
+            $table->foreignUuid('cashier_id')->constrained('users')->onDelete('cascade');
+            $table->foreignUuid('approved_by')->nullable()->constrained('users')->onDelete('set null');
 
             $table->text('reason');
             $table->enum('status', ['pending', 'approved', 'rejected', 'processed'])

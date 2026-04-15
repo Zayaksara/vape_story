@@ -20,7 +20,7 @@ class ReturnController extends Controller
      */
     public function index()
     {
-        $returns = Auth::user()->role === 'admin'
+        $returns = Auth::user()->isAdmin()
             ? ProductReturn::with(['order', 'cashier', 'approvedBy', 'returnItems'])
                 ->latest()->paginate(15)
             : ProductReturn::where('cashier_id', Auth::id())

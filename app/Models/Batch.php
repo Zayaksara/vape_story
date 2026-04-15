@@ -72,4 +72,11 @@ class Batch extends Model
     {
         return $this->hasMany(ReturnItem::class);
     }
+
+    public function scopeAvailableForProduct($query, $productId)
+    {
+        return $query->where('product_id', $productId)
+                     ->where('stock_quantity', '>', 0)
+                     ->where('expired_date', '>', now());
+    }
 }

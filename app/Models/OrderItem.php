@@ -38,4 +38,11 @@ class OrderItem extends Model
     {
         return $this->belongsTo(Batch::class);
     }
+
+    // Accesor: hitung subtotal dinamis (untk validasi)
+    public function getCalculatedSubtotalAttribute()
+    {
+        return ($this->unit_price * $this->quantity) - $this->discount_amount;
+    }
+    
 }
