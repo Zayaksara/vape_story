@@ -117,9 +117,8 @@ class OrderService
 
                 StockMutation::where('batch_id', $orderItem['batch']->id)
                     ->where('mutation_type', 'OUT')
-                    ->whereNull('related_id')
+                    ->whereNull('reference_id')
                     ->update([
-                        'mutation_id' => MutationType::SALE,
                         'reference_type' => Order::class,
                         'reference_id' => $order->id,
                         'notes' => "Penjualan - Invoice" . $order->invoice_number,
@@ -150,9 +149,8 @@ class OrderService
                 // Observer otomatis catat StockMutation IN (restore)
                 StockMutation::where('batch_id', $item->batch_id)
                     ->where('mutation_type', 'IN')
-                    ->whereNull('related_id')
-                    ?->update([
-                        'mutation_id' => MutationType::RETURN,
+                    ->whereNull('reference_id')
+                    ->update([
                         'reference_type' => Order::class,
                         'reference_id' => $order->id,
                         'notes' => "Pembatalan order - Invoice" . $order->invoice_number,
