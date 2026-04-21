@@ -3,7 +3,6 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Support\Facades\DB;  
 use Illuminate\Database\Eloquent\Model;
 
 class Product extends Model
@@ -17,47 +16,37 @@ class Product extends Model
         'code',
         'name',
         'category_id',
+        'brand_id',           // ← BARU
         'base_price',
         'nicotine_strength',
-
-       
         'flavor',
         'size_ml',
-
-        // Device-specific
         'battery_mah',
         'coil_type',
-        'brand',
-        'device_type',
-
-        // Pod-specific
         'pod_type',
         'resistance_ohm',
-
-        // General
         'description',
+        'image',              // ← BARU
         'is_active',
-        'expired_date',
     ];
 
     protected $casts = [
-        'base_price' => 'decimal:2',
+        'base_price'        => 'decimal:2',
         'nicotine_strength' => 'decimal:2',
-        'flavor' => 'string',
-        'size_ml' => 'decimal:2',
-        'battery_mah' => 'integer',
-        'coil_type' => 'string',
-        'brand' => 'string',
-        'device_type' => 'string',
-        'pod_type' => 'string',
-        'resistance_ohm' => 'decimal:2',
-        'is_active' => 'boolean',
-        'expired_date' => 'date',
+        'size_ml'           => 'decimal:2',
+        'resistance_ohm'    => 'decimal:2',
+        'is_active'         => 'boolean',
     ];
 
+    // ==================== RELATIONSHIPS ====================
     public function category()
     {
         return $this->belongsTo(Category::class);
+    }
+
+    public function brand()                    // ← BARU
+    {
+        return $this->belongsTo(Brand::class);
     }
 
     public function batches()
@@ -65,12 +54,12 @@ class Product extends Model
         return $this->hasMany(Batch::class);
     }
 
+    // ==================== SCOPES & HELPERS ====================
     public function scopeActive($query)
     {
         return $query->where('is_active', true);
     }
 
-    // mencari produk dengan stok rendah (misalnya <= 20)
     public function scopeLowStock($query, $threshold = 20)
     {
         return $query->whereHas('batches', function ($q) use ($threshold) {
@@ -78,14 +67,12 @@ class Product extends Model
         });
     }
 
-    // mencari produk yang akan segera kedaluwarsa (misalnya dalam 30 hari)
     public function scopeNearExpiry($query, $days = 30)
     {
         return $query->whereHas('batches', function ($q) use ($days) {
             $q->where('expired_date', '<=', now()->addDays($days));
         });
     }
-
 
     public function totalStock()
     {
@@ -94,6 +81,6 @@ class Product extends Model
 
     public function stockValue()
     {
-        return $this->batches()->sum(DB::raw('stock_quantity * cost_price'));
+        return $this->batches()->sum(\DB::raw('stock_quantity * cost_price'));
     }
 }

@@ -14,6 +14,15 @@ Route::middleware('auth')->group(function () {
     Route::get('/inventory', [InventoryController::class, 'index'])->name('inventory.index');
     Route::post('/inventory/restock', [InventoryController::class, 'restock'])->name('inventory.restock');
     Route::post('/inventory/adjust', [InventoryController::class, 'adjust'])->name('inventory.adjust');
+    // === CATEGORY ROUTES ===
+    Route::resource('categories', \App\Http\Controllers\CategoryController::class)
+        ->except(['show']);
+    // === BRAND ROUTES ===
+    Route::resource('brands', \App\Http\Controllers\BrandController::class)
+        ->except(['show']);
+    // === PRODUCT ROUTES ===
+    Route::resource('products', \App\Http\Controllers\ProductController::class)
+        ->except(['show']);
     
     Route::prefix('returns')->name('returns.')->group(function () {
         Route::get('/',                   [ReturnController::class, 'index'])   ->name('index');
